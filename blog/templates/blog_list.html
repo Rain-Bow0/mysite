@@ -22,7 +22,7 @@
                             <div class="blog">
                                 <h3><a href="{% url 'blog_detail' blog.pk %}">
                                     {{ blog.title }}</a></h3>
-                                <p>{{ blog.content|truncatechars:150 }}</p>
+                                <p>{{ blog.content|striptags|truncatechars:150 }}</p>
                                 <div class="blog-info">
                                     <span class="glyphicon glyphicon-tags">分类</span> <a
                                         href="{% url 'blog_with_type' blog.blog_type.pk %}"> {{ blog.blog_type }}</a>
