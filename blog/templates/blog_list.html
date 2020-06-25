@@ -67,16 +67,18 @@
                         {% endif %}
                     </li>
                 </ul>
-            <div id="page_button">一共有{{ blogs.paginator.count }}篇博客，当前第{{ blogs.number }}页，共{{ blogs.paginator.num_pages }}页</div>
+            <div id="page_button">
+                一共有{{ blogs.paginator.count }}篇博客，当前第{{ blogs.number }}页，共{{ blogs.paginator.num_pages }}页</div>
             </div>
-            {# 显示博客分类 #}
+            {# 显示分类 #}
             <div class="col-xs-4 col-md-3 col-lg-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">博客分类</div>
                     <div class="panel-body">
                         <ul class="blog-type">
                             {% for blogtype in blog_types %}
-                                <li><a href="{% url 'blog_with_type' blogtype.pk %}"> {{ blogtype.type_name }}</a></li>
+                                <li><a href="{% url 'blog_with_type' blogtype.pk %}">
+                                    {{ blogtype.type_name }}({{ blogtype.blog_type_count }})</a></li>
                             {% empty %}
                                 <li>暂无分类</li>
                             {% endfor %}
@@ -87,9 +89,11 @@
                     <div class="panel-heading">日期分类</div>
                     <div class="panel-body">
                         <ul class="blog-type">
-                            {% for date in blog_dates %}
+                            {% for date, date_count in blog_dates.items %}
                                 <li>
-                                <a href="{% url 'blog_with_date' date.year date.month %}">{{ date|date:"Y年m月" }}</a>
+                                <a href="{% url 'blog_with_date' date.year date.month %}">
+                                    {{ date|date:"Y年m月" }}({{ date_count }})
+                                </a>
                                 </li>
                             {% endfor %}
 

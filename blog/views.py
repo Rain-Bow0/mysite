@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from .models import Blog, BlogType
+from django.db.models import Count
 from django.conf import settings
 
 
@@ -19,11 +20,16 @@ def get_blog_list_common_date(request, blog_all_list):
             page_range.append("...")
         page_range.append(paginator.num_pages)
 
+    blog_dates = Blog.objects.dates('created_time', 'month', order='DESC')
+    blog_date_dict = {}
+    for date in blog_dates:
+        blog_date_dict[date] = Blog.objects.filter(created_time__year=date.year, created_time__month=date.month).count()
+
     context = {}
     context['blogs'] = paginator.get_page(page_num)
-    context['blog_dates'] = Blog.objects.dates('created_time', 'month', order='DESC')
+    context['blog_dates'] = blog_date_dict
     context['page_range'] = page_range
-    context['blog_types'] = BlogType.objects.all()
+    context['blog_types'] = BlogType.objects.annotate(blog_type_count=Count('blog'))
 
     return context
 
