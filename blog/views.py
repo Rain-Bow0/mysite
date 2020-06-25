@@ -1,0 +1,66 @@
+from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator
+from .models import Blog, BlogType
+from django.conf import settings
+
+
+# 传入所需要的博客，以及request，返回博客公共部分的内容，blogs， blog_type， blog_dates， blog_range
+def get_blog_list_common_date(request, blog_all_list):
+    page_num = request.GET.get('page', 1)
+    paginator = Paginator(blog_all_list, settings.EACH_PAGE_BLOG_NUMBER)
+    page_range = [i for i in range(int(page_num) - 2, int(page_num) + 3) if i in paginator.page_range]
+    if page_range[0] != 1:
+        if page_range[0] != 2:
+            page_range.insert(0, "...")
+        page_range.insert(0, 1)
+
+    if page_range[-1] != paginator.num_pages:
+        if page_range[-1] != paginator.num_pages - 1:
+            page_range.append("...")
+        page_range.append(paginator.num_pages)
+
+    context = {}
+    context['blogs'] = paginator.get_page(page_num)
+    context['blog_dates'] = Blog.objects.dates('created_time', 'month', order='DESC')
+    context['page_range'] = page_range
+    context['blog_types'] = BlogType.objects.all()
+
+    return context
+
+
+# Create your views here.
+def blog_list(request):
+
+    blog_all_list = Blog.objects.all()
+    context = get_blog_list_common_date(request, blog_all_list)
+
+    return render(request, template_name='blog_list.html', context=context)
+
+
+def blog_detail(request, blog_pk):
+    context = {}
+    blog = get_object_or_404(Blog, pk=blog_pk)
+    context['blog'] = blog
+    context['previous_blog'] = Blog.objects.filter(pk__lt=blog.pk).first()
+    context['next_blog'] = Blog.objects.filter(pk__gt=blog.pk).last()
+    context['blog_dates'] = Blog.objects.dates('created_time', 'month', order='DESC')
+    return render(request, 'blog_detail.html', context)
+
+
+def blog_with_type(request, blog_type_pk):
+    # 获取该分类下的博客
+    blog_type = get_object_or_404(BlogType, pk=blog_type_pk)
+    blog_all_list = Blog.objects.filter(blog_type=blog_type)
+
+    context = get_blog_list_common_date(request, blog_all_list)
+    context['blog_type'] = blog_type
+
+    return render(request, 'blog_with_type.html', context)
+
+
+def blog_with_date(request, year, month):
+    blog_all_list = Blog.objects.filter(created_time__year=year, created_time__month=month)
+    context = get_blog_list_common_date(request, blog_all_list)
+    context['blog_with_date'] = '%s年%s月' % (year, month)
+
+    return render(request, 'blog_with_date.html', context)

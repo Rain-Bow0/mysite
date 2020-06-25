@@ -1,0 +1,13 @@
+{% extends 'blog_list.html' %}
+{% load static %}
+
+{% block blog_list_title %}
+    博客发布时间:{{ blog_with_date }}
+    <a href="{% url 'blog_list' %}">查看所有博客</a>
+
+{% endblock %}
+
+
+
+
+

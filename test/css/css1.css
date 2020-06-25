@@ -1,0 +1,56 @@
+*{
+    background-image: url("../images/cl.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    background-color: #CCCCCC;
+}
+#qwe{
+    font-size: 50px;
+    color: green;
+    font-weight: bold;
+    text-align: center;
+}
+#red {color:red;}
+#green {color:green;}
+p.one {
+    height: 150px;
+    font-size: 20px;
+    color: blue;
+    background: gray;
+    line-height: 37px;
+    text-align: justify;
+    text-decoration: line-through ;
+}
+p span{
+    color: pink;
+}
+
+a:visited{
+    color: red;
+}
+a:hover{
+    text-decoration: underline;
+    color: blue;
+    font-size: 120%;
+}
+a:active{
+    text-decoration: none;
+    color: blue;
+}
+
+#fix-box{
+            width: 200px;
+            height: 200px;
+            background: red;
+
+        }
+#rel-box{
+            width: 100px;
+            height: 100px;
+            background: black;
+            position: fixed;
+            left: 500px;
+            top: 500px;
+        }
