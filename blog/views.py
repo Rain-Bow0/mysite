@@ -1,8 +1,10 @@
+from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
-from .models import Blog, BlogType
 from django.db.models import Count
 from django.conf import settings
+from .models import Blog, BlogType
+from read_statistics import utils
 
 
 # 传入所需要的博客，以及request，返回博客公共部分的内容，blogs， blog_type， blog_dates， blog_range
@@ -36,7 +38,6 @@ def get_blog_list_common_date(request, blog_all_list):
 
 # Create your views here.
 def blog_list(request):
-
     blog_all_list = Blog.objects.all()
     context = get_blog_list_common_date(request, blog_all_list)
 
@@ -44,13 +45,18 @@ def blog_list(request):
 
 
 def blog_detail(request, blog_pk):
-    context = {}
     blog = get_object_or_404(Blog, pk=blog_pk)
+    read_cookie_key = utils.read_statics_once_read(request, blog)
+
+    context = {}
     context['blog'] = blog
     context['previous_blog'] = Blog.objects.filter(pk__lt=blog.pk).first()
     context['next_blog'] = Blog.objects.filter(pk__gt=blog.pk).last()
     context['blog_dates'] = Blog.objects.dates('created_time', 'month', order='DESC')
-    return render(request, 'blog_detail.html', context)
+    response = render(request, 'blog_detail.html', context)
+    # 设置Cookie
+    response.set_cookie(read_cookie_key, 'true', max_age=1200)
+    return response
 
 
 def blog_with_type(request, blog_type_pk):

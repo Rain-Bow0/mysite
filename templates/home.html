@@ -6,7 +6,7 @@
 {% endblock %}
 {% block css %}
     <link rel="stylesheet" href="../static/home.css">
-
+    <script src="http://cdn.highcharts.com.cn/highcharts/highcharts.js"></script>
 {% endblock %}
 {% block nav_home_active %}
     active
@@ -16,5 +16,44 @@
     <div class="welcome">
     <p id="first">欢迎来到我的网站，随便看看吧</p>
     <p id="second">虽然什么也没有</p>
+
+    <div id="container" style="width: 600px;height:400px;"></div>
+    <script>
+        // 图表配置
+        var options = {
+            chart: {
+                type: 'line'                          //指定图表的类型，默认是折线图（line）
+            },
+            xAxis:{
+                categories:
+                    {{ dates|safe }}
+            },
+            yAxis:{
+                title:null,
+                gridLineDashStyle: 'Dash',
+            },
+            title: {
+                text: '七日博客阅读量'                 // 标题
+            },
+            series: [{                              // 数据列
+                name: '阅读量',                        // 数据列名
+                data: {{ read_num }}                     // 数据
+            }],
+            legend:{
+                enabled :false
+            },
+            credits:{
+                enabled :false
+            },plotOptions: {
+    line: {
+        dataLabels: {
+            enabled: true
+        }
+    }
+}
+        };
+        // 图表初始化函数
+        var chart = Highcharts.chart('container', options);
+    </script>
     </div>
 {% endblock %}

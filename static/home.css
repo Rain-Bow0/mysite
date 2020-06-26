@@ -13,4 +13,12 @@ div.welcome{
 #second{
     font-size: 15px;
     text-align: center;
+    margin-bottom: 2em;
+}
+
+div#container{
+    margin: 0 auto;
+    height: 25em;
+    min-width: 20em;
+    max-width: 50em;
 }
