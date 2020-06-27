@@ -4,6 +4,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils import timezone
 
+
 # Create your models here.
 class ReadNum(models.Model):
     read_num = models.IntegerField(default=0)
@@ -15,7 +16,6 @@ class ReadNum(models.Model):
 class ReadNumExpandMethod():
     def get_read_num(self):
         ct = ContentType.objects.get_for_model(self)
-
         try:
             readnum = ReadNum.objects.get(content_type=ct, object_id=self.pk)
             return readnum.read_num
