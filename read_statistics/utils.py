@@ -37,10 +37,17 @@ def get_seven_days_read_data(content_type):
     return dates, read_detail_sum
 
 
-def get_today_hot_blog(content_type):
+def get_today_hot_blog():
+    # 另一种方法, 需要传入参数content_type
+    # today = timezone.now().date()
+    # read_details = ReadDetail.objects.filter(content_type=content_type, date=today)
+    # return read_details.order_by('-read_num')[:7]  # 排序取前七条
     today = timezone.now().date()
-    read_details = ReadDetail.objects.filter(content_type=content_type, date=today)
-    return read_details.order_by('-read_num')[:7]  # 排序取前七条
+    blogs = Blog.objects.filter(read_details__date=today) \
+        .annotate(read_num=Sum('read_details__read_num')) \
+        .order_by('-read_num')
+    print(blogs)
+    return blogs[:7]  # 排序取前七条
 
 
 def get_yesterday_hot_blog():
@@ -52,7 +59,7 @@ def get_yesterday_hot_blog():
     return blogs[:7]  # 排序取前七条
 
 
-def get_seven_days_hot_blog():
+def get_seven_days_ago_hot_blog():
     today = timezone.now().date()
     seven_days_ago = today - timezone.timedelta(days=7)
     blogs = Blog.objects.filter(read_details__date__lt=today, read_details__date__gte=seven_days_ago)\
