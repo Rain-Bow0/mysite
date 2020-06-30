@@ -1,9 +1,12 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
+from django.contrib.contenttypes.models import ContentType
 from django.db.models import Count
 from django.conf import settings
 from .models import Blog, BlogType
 from read_statistics import utils
+from comment.models import Comment
+from comment.forms import CommentForm
 
 
 # 传入所需要的博客，以及request，返回博客公共部分的内容，blogs， blog_type， blog_dates， blog_range
@@ -47,11 +50,16 @@ def blog_detail(request, blog_pk):
     blog = get_object_or_404(Blog, pk=blog_pk)
     read_cookie_key = utils.read_statics_once_read(request, blog)
 
+    blog_content_type = ContentType.objects.get_for_model(blog)
+    comments = Comment.objects.filter(content_type=blog_content_type, object_id=blog_pk)
+
     context = {}
     context['blog'] = blog
     context['previous_blog'] = Blog.objects.filter(pk__lt=blog.pk).first()
     context['next_blog'] = Blog.objects.filter(pk__gt=blog.pk).last()
     context['blog_dates'] = Blog.objects.dates('created_time', 'month', order='DESC')
+    context['comments'] = comments
+    context['comment_form'] = CommentForm(initial={'content_type': blog_content_type.model, 'object_id': blog.pk})
     response = render(request, 'blog_detail.html', context)
     # 设置Cookie
     response.set_cookie(read_cookie_key, 'true', max_age=1200)

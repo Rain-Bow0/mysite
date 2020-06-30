@@ -55,40 +55,42 @@
             var chart = Highcharts.chart('container', options);
         </script>
 
-    <div class="hot-blog">
-    <h3>今日热门博客</h3>
-    <ul>
-        {% for blog in today_hot_blog %}
-            <a href="{% url 'blog_detail' blog.pk %}">   <!--  或blog.pk或blog.object_id  -->
-                {{ blog.title }}({{ blog.read_num }})</a>
+        <div class="hot-blog">
+            <h3>今日热门博客</h3>
+            <ul>
+                {% for blog in today_hot_blog %}
+                    <a href="{% url 'blog_detail' blog.pk %}">   <!--  或blog.pk或blog.object_id  -->
+                        {{ blog.title }}({{ blog.read_num }})</a>
 
-        {% empty %}
-            <li>今日暂无热门博客</li>
-        {% endfor %}
-    </ul></div>
-    <div class="hot-blog">
-    <h3>昨日热门博客</h3>
-    <ul>
-        {% for blog in yesterday_hot_blog %}
-            <a href="{% url 'blog_detail' blog.pk %}">   <!--  或blog.pk或blog.object_id  -->
-                {{ blog.title }}({{ blog.read_num }})</a>
+                {% empty %}
+                    <li>今日暂无热门博客</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="hot-blog">
+            <h3>昨日热门博客</h3>
+            <ul>
+                {% for blog in yesterday_hot_blog %}
+                    <a href="{% url 'blog_detail' blog.pk %}">   <!--  或blog.pk或blog.object_id  -->
+                        {{ blog.title }}({{ blog.read_num }})</a>
 
-        {% empty %}
-            <li>昨日暂无热门博客</li>
-        {% endfor %}
-    </ul>
-    </div>
-    <div class="hot-blog">
-    <h3>近一周热门博客</h3>
-    <ul>
-        {% for blog in seven_days_ago_hot_blog %}
-            <a href="{% url 'blog_detail' blog.id %}">
-                {{ blog.title }}({{ blog.read_num_sum }})</a>
+                {% empty %}
+                    <li>昨日暂无热门博客</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="hot-blog">
+            <h3>近一周热门博客</h3>
+            <ul>
+                {% for blog in seven_days_ago_hot_blog %}
+                    <a href="{% url 'blog_detail' blog.id %}">
+                        {{ blog.title }}({{ blog.read_num_sum }})</a>
 
-        {% empty %}
-            <li>近一周暂无热门博客</li>
-        {% endfor %}
-    </ul>
-    </div>
+                {% empty %}
+                    <li>近一周暂无热门博客</li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 {% endblock %}
+

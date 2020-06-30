@@ -24,7 +24,7 @@ SECRET_KEY = 'v7$-9uv@v$tx##0vaj%k^tp)6zt49m_$jkxvo@xk=m)31i8a2v'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['wzl.pythonanywhere.com', '127.0.0.1']
 
 # Application definition
 
@@ -119,6 +119,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, '/static')
+
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
@@ -132,6 +134,32 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # 配置ckeditor
 CKEDITOR_UPLOAD_PATH = 'upload/'
 
+CKEDITOR_CONFIGS = {
+    'default': {},
+    'ckeditor_configs': {
+        'toolbar_YourCustomToolbarConfig': [
+
+            {'name': 'basicstyles',
+             'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
+            {'name': 'editing', 'items': ['Find', 'Replace']},
+            {'name': 'paragraph',
+             'items': ['NumberedList', 'BulletedList', '-', 'Blockquote', '-',
+                       'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl',
+                       'Language']},
+            {'name': 'links', 'items': ['Link', 'Unlink']},
+            {'name': 'insert',
+             'items': ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar']},
+            '/',
+            {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
+            {'name': 'colors', 'items': ['TextColor', 'BGColor']},
+
+        ],
+        'toolbar': 'YourCustomToolbarConfig',  # put selected toolbar config here
+        'tabSpaces': 4,
+        'removePlugins': 'elementspath',
+        'resize_enabled': 'False'
+    }
+}
 # 自定义参数
 EACH_PAGE_BLOG_NUMBER = 10
 

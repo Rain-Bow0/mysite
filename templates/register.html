@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    一无所知小白龙的网站|注册
+{% endblock %}
+
+{% block nav_home_active %}
+    active
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-4 col-xs-offset-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">注册</div>
+                    <div class="panel-body">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            {% for field in register_form %}
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{ field }}
+                                <p class="text-danger">{{ field.errors.as_text }}</p>
+                            {% endfor %}
+                            <span class="text-danger pull-left">{{ register_form.non_field_errors  }}</span>
+                            <input type="submit" class="btn btn-primary pull-right" value="注册">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
