@@ -33,11 +33,7 @@ h3.comment-area-title{
     border-bottom: 1px solid #CCCCCC;
     margin-bottom: 1em;
 }
-p.comment_area_text{
-    padding-bottom: 1.5em;
-    text-indent: 2em;
-    font-size: 20px;
-}
+
 div.django-ckeditor-widget{
     width:100%
 }
