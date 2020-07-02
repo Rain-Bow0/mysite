@@ -37,3 +37,7 @@ h3.comment-area-title{
 div.django-ckeditor-widget{
     width:100%
 }
+
+div.reply{
+    margin-left: 2em;
+}

@@ -51,7 +51,7 @@ def blog_detail(request, blog_pk):
     read_cookie_key = utils.read_statics_once_read(request, blog)
 
     blog_content_type = ContentType.objects.get_for_model(blog)
-    comments = Comment.objects.filter(content_type=blog_content_type, object_id=blog_pk)
+    comments = Comment.objects.filter(content_type=blog_content_type, object_id=blog_pk, parent=None)
 
     context = {}
     context['blog'] = blog
@@ -59,7 +59,8 @@ def blog_detail(request, blog_pk):
     context['next_blog'] = Blog.objects.filter(pk__gt=blog.pk).last()
     context['blog_dates'] = Blog.objects.dates('created_time', 'month', order='DESC')
     context['comments'] = comments
-    context['comment_form'] = CommentForm(initial={'content_type': blog_content_type.model, 'object_id': blog.pk})
+    context['comment_form'] = CommentForm(
+        initial={'content_type': blog_content_type.model, 'object_id': blog.pk, 'reply_comment_id': 0})
     response = render(request, 'blog_detail.html', context)
     # 设置Cookie
     response.set_cookie(read_cookie_key, 'true', max_age=1200)
