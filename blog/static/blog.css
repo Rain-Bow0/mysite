@@ -41,3 +41,33 @@ div.django-ckeditor-widget{
 div.reply{
     margin-left: 2em;
 }
+div#reply_content_container{
+    display: block;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    padding: 1em 1em 0.5em;
+    border-bottom: none;
+}
+div#reply_head{
+    padding-bottom: 0.5em;
+}
+div#reply_content{
+    padding-top: 0.5em;
+    font-size: 110%;
+    text-indent: 1em;
+    border-top: 1px dashed #939490;
+}
+div.comment_text{
+    font-size: 20px;
+    text-indent: 1em;
+    font-weight: 400;
+}
+div.like{
+    color:#337ab7;
+    cursor:pointer;
+    display: inline-block;
+    padding: 0.5em 0.3em;
+}
+div.like .active{
+    color: #f22;
+}
