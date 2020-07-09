@@ -1,9 +1,10 @@
 div.welcome{
+    display: block;
+    position: relative;
+    height: 300px;
+    text-align: center;
+    top:120px;
 
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 #first{
@@ -17,12 +18,13 @@ div.welcome{
 }
 
 div#container{
-    margin: 0 auto;
-    height: 25em;
-    min-width: 20em;
-    max-width: 50em;
+    height: 500px;
+    width: 900px;
+    position: relative;
+    left: 23%;
+
 }
-div.hot-blog{
-    text-align: center;
-    margin-top: 2em;
+
+div#hot-blog{
+    float: right;
 }

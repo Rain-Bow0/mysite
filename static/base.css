@@ -9,3 +9,9 @@ body{
 ul{
     list-style-type: none;
 }
+ul.navbar-right{
+    margin-right: 0;
+}
+#logout_button{
+    border-top: 1px solid #CCCCCC;
+}
