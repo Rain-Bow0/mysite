@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth
 from django.contrib.auth.models import User
-
+from django.http import JsonResponse
 from django.urls import reverse
 
-from .forms import LoginForm, RegisterForm
-from django.http import JsonResponse
+from .forms import LoginForm, RegisterForm, ChangeNicknameForm
+from .models import Profile
 
 
 def login(request):
@@ -60,3 +60,25 @@ def logout(request):
 
 def user_info(request):
     return render(request, 'user_info.html')
+
+
+def change_nickname(request):
+    redirect_to = request.GET.get('from', reverse('home'))
+    if request.method == 'POST':
+        form = ChangeNicknameForm(request.POST, user=request.user)
+        if form.is_valid():
+            nickname_new = form.cleaned_data['nickname_new']
+            profile, created = Profile.objects.get_or_create(user=request.user)
+            profile.nickname = nickname_new
+            profile.save()
+            
+            return redirect(redirect_to)
+    else:
+        form = ChangeNicknameForm()
+
+    context = {}
+    context['page_title'] = '修改昵称'
+    context['submit_text'] = '修改昵称'
+    context['form_title'] = '修改昵称'
+    context['form'] = form
+    return render(request, 'form.html', context)

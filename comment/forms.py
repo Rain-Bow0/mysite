@@ -1,13 +1,14 @@
 from django import forms
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import ObjectDoesNotExist
-from ckeditor.widgets import CKEditorWidget
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from .models import Comment
+
 
 class CommentForm(forms.Form):
     content_type = forms.CharField(widget=forms.HiddenInput)
     object_id = forms.IntegerField(widget=forms.HiddenInput)
-    comment_text = forms.CharField(widget=CKEditorWidget(config_name='ckeditor_configs'), label=False,
+    comment_text = forms.CharField(widget=CKEditorUploadingWidget(config_name='ckeditor_configs'), label=False,
                                    error_messages={'required': '评论内容不能为空'})
     reply_comment_id = forms.IntegerField(widget=forms.HiddenInput(attrs={'id': 'reply_comment_id'}))
     def __init__(self, *args, **kwargs):

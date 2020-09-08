@@ -1,54 +1,73 @@
-class TreeNode(object):
-    def __init__(self, x):
-        self.val = x
-        self.left = None
-        self.right = None
+import xlrd
+from openpyxl import Workbook
+
+url = r'C:\Users\Rain_Bow\Documents\Tencent Files\1484261541\FileRecv\党员志愿者信息.xlsx'
+url2 = r'C:\Users\Rain_Bow\Documents\Tencent Files\1484261541\FileRecv\123.xlsx'
+f = xlrd.open_workbook(url)
 
 
-class Solution(object):
-    def pathSum(self, root, sum):
-        result = []
-        self.help(root, sum, [], result)
-        return result
+name = [
+    '张宗榜',
+    '王永福',
+    '张雨',
+    '石晓楠',
+    '傅茂松',
+    '林睿',
+    '钟璐英',
+    '周鑫煌',
+    '沈溢煌',
+    '余琳玲',
+    '李镇平',
+    '陈启昌',
+    '张凯',
+    '林华伟',
+    '林铮威',
+    '杨蓁旎',
+    '戴妍',
+    '郑千玲',
+    '邓健程',
+    '颜荣镇',
+    '林逸群',
+    '陈超颖',
+    '王瑞卿',
+    '苏凯婷',
+    '林立',
+    '梅恒权',
+    '邱炜旭',
+    '郑雅芳',
+    '陈心怡',
+    '阮君曦',
+    '吴雅虹',
+    '朱晓倩',
+    '王镇隆',
+    '林涛',
+    '王耀鑫',
+    '林晓锋',
+    '侯雅倩',
+    '林少惠',
+    '黄彬煌',
+    '许煌标',
+    '陈梦雪',
+    '刘诗琳',
+    '陈苏苏',
+    '潘海东',
+    '陈友昆',
+    '陈明磊',
+    '孙承恺',
+    '陈智平',
+    '胡雅伶',
+    '刘朋宇',
+]
+table = f.sheets()[0]
+nrows = table.nrows
 
-    def help(self, root, sum, path, result):
-        if root is None:
-            return
-        # 步骤类似先序遍历
-        path.append(root.val)
-        # 遍历根节点
-        if root.left is None and root.right is None:
-            if sum == root.val:
-                result.append(list(path))
-        # 遍历左子树
-        self.help(root.left, sum - root.val, path, result)
-        # 遍历右子树
-        self.help(root.right, sum - root.val, path, result)
-        path.pop()
 
+wb = Workbook()
+# 获取当前活跃的sheet，默认是第一个sheet
+ws = wb.active
+tt = 1
+for i in range(2, nrows):
+    if table.cell_value(i, 1) in name:
+        ws.append(table.row_values(i))
 
-root = TreeNode(5)
-l1 = TreeNode(4)
-r1 = TreeNode(8)
-root.left = l1
-root.right = r1
-l2 = TreeNode(11)
-r2 = TreeNode(13)
-r3 = TreeNode(4)
-l1.left = l2
-r1.left = r2
-r1.right = r3
-l3 = TreeNode(7)
-l4 = TreeNode(2)
-r4 = TreeNode(5)
-r5 = TreeNode(1)
-l2.left = l3
-l2.right = l4
-r3.left = r4
-r3.right = r5
-
-slu = Solution()
-
-t = slu.pathSum(root, 22)
-print(t)
-
+wb.save(url2)

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    一无所知小白龙的网站|登录
+    一无所知小白龙|{{ page_title }}
 {% endblock %}
 
 {% block nav_login_active %}
@@ -12,27 +12,25 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-4 col-xs-offset-4">
-                {% if not user.is_authenticated %}
+
                 <div class="panel panel-default">
-                    <div class="panel-heading">登录</div>
+                    <div class="panel-heading">{{ form_title }}</div>
                     <div class="panel-body">
                         <form action="" method="post">
                             {% csrf_token %}
-                            {% for field in login_form %}
-                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {% for field in form %}
+                                {% if not field.is_hidden %}
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {% endif %}
+
                                 {{ field }}
                                 <p class="text-danger">{{ filed.errors.as_text }}</p>
                             {% endfor %}
                             <span class="text-danger pull-left">{{ login_form.non_field_errors }}</span>
-                            <input type="submit" class="btn btn-primary pull-right" value="登录">
+                            <input type="submit" class="btn btn-primary pull-right" value={{ submit_text }}>
                         </form>
                     </div>
-                {% else %}
-                    <span>已登录，跳转回首页。。。。</span>
-                    <script type="text/javascript">
-                        window.location.href = '/';
-                    </script>
-                {% endif %}
+
                 </div>
 
             </div>
