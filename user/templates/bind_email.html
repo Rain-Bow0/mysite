@@ -1,0 +1,46 @@
+{% extends 'form.html' %}
+
+{% block other_button %}
+    <button id="send_code" class="btn btn-primary">发送验证码</button>
+{% endblock %}
+
+{% block script_extends %}
+    <script type="text/javascript">
+        $("#send_code").click(function (event) {
+            event.preventDefault();
+            let email = $("#id_email").val();
+            $.ajax({
+                url: "{% url 'send_verification_code' %}",
+                type: "GET",
+                async: false,
+                data: {
+                    "email": email,
+                    "send_for": "bind_email_code",
+                },
+                cache: false,
+                succcess: function (data) {
+                    if (data['status'] !== 'SUCCESS') {
+                        alert(data['status'])
+                    } else {
+
+                    }
+                }
+            });
+            let count = 60;
+            $(this).addClass('disabled');
+            $(this).attr('disabled', 'true');
+            var interval = setInterval(() => {
+                $(this).text('重新发送(' + count + ')');
+                if (count === 0) {
+                    clearInterval(interval);
+                    $(this).text('发送验证码');
+                    $(this).attr('disabled', false);
+                    $(this).removeClass('disabled');
+                    return 0;
+                }
+                count--;
+            }, 1000);
+
+        })
+    </script>
+{% endblock %}

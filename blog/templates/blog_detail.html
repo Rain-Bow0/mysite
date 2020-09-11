@@ -61,7 +61,7 @@
                             {% for comment in comments %}
                                 <li id="root_{{ comment.pk }}" class="list-group-item">
                                     <span>#{{ forloop.counter }}楼 {{ comment.comment_time|date:'Y-m-d H:n:s' }}</span>
-                                    <span id="reply_name_{{ comment.pk }}">{{ comment.user.username }}</span>
+                                    <span id="reply_name_{{ comment.pk }}">{{ comment.user.get_nickname_or_username }}</span>
                                 </li>
                                 <div class="comment_text" id="content_{{ comment.pk }}">{{ comment.text|safe }}</div>
 
@@ -76,9 +76,9 @@
                                 {% for reply in comment.root_comment.all %}
                                     <div class="reply">
                                         <span>{{ reply.comment_time|date:'Y-m-d H:n:s' }}</span>
-                                        <span id="reply_name_{{ reply.pk }}">{{ reply.user.username }}</span>
+                                        <span id="reply_name_{{ reply.pk }}">{{ reply.user.get_nickname_or_username }}</span>
                                         <span>回复</span>
-                                        <span>{{ reply.reply_to.username }}:</span>
+                                        <span>{{ reply.reply_to.get_nickname_or_username }}:</span>
                                         <div class="comment_text"
                                              id="content_{{ reply.pk }}">{{ reply.text|safe }}</div>
                                         <div class="like"
@@ -99,7 +99,7 @@
                     {% if user.is_authenticated %}
                         <form id="comment_form" action="{% url 'update_comment' %}" method="post"
                               style="overflow: hidden">
-                            <label for="comment_text">{{ user.username }}，欢迎评论~</label>
+                            <label for="comment_text">{{ user.get_nickname_or_username }}，欢迎评论~</label>
                             <div id="reply_content_container" style="display: none;">
                                 <div id="reply_head">回复：<span id="reply_to_name"> </span></div>
                                 <div id="reply_content"></div>

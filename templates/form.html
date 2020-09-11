@@ -22,12 +22,19 @@
                                 {% if not field.is_hidden %}
                                     <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                                 {% endif %}
-
                                 {{ field }}
-                                <p class="text-danger">{{ filed.errors.as_text }}</p>
+                                <p class="text-danger">{{ field.errors.as_text }}</p>
                             {% endfor %}
-                            <span class="text-danger pull-left">{{ login_form.non_field_errors }}</span>
-                            <input type="submit" class="btn btn-primary pull-right" value={{ submit_text }}>
+                            <span id="tip" class="text-danger">{{ form.non_field_errors }}</span>
+                            <div class="clearfix"></div>
+                            <div class="pull-left">
+                                {% block other_button %}{% endblock %}
+                            </div>
+                            <div class="pull-right">
+                                <input type="submit" class="btn btn-primary " value={{ submit_text }}>
+                                <button class="btn btn-default"
+                                        onclick="window.location.href='{{ return_to }}'">返回</button>
+                            </div>
                         </form>
                     </div>
 

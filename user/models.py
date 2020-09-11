@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-# Create your models here.
 
 
 class Profile(models.Model):
@@ -8,4 +7,30 @@ class Profile(models.Model):
     nickname = models.CharField(max_length=20)
 
     def __str__(self):
-        return "<Profile: %s for %s" %(self.nickname, self.user.username)
+        return "<Profile: %s for %s" % (self.nickname, self.user.username)
+
+
+def get_nickname(self):
+    if Profile.objects.filter(user=self).exists():
+        profile = Profile.objects.get(user=self)
+        return profile.nickname
+    else:
+        return ''
+
+
+def get_nickname_or_username(self):
+    if Profile.objects.filter(user=self).exists():
+        profile = Profile.objects.get(user=self)
+        return profile.nickname
+    else:
+        return self.username
+
+
+def have_nickname(self):
+    return Profile.objects.filter(user=self).exists()
+
+
+User.get_nickname = get_nickname
+User.get_nickname_or_username = get_nickname_or_username
+User.have_nickname = have_nickname
+
