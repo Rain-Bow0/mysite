@@ -177,6 +177,14 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.qq.com'
 EMAIL_PORT = 25
 EMAIL_HOST_USER = '1484261541@qq.com'
-EMAIL_HOST_PASSWORD = 'hzkwamkevudogccg'
+EMAIL_HOST_PASSWORD = 'ibywklqhzunihhdh'
 EMAIL_SUBJECT_PREFIX = '[一无所知小白龙的博客]'
 EMAIL_USE_TLS = True
+
+# 配置celery
+broker_url = 'redis://localhost:6379/0'
+
+celery_result_backend = 'redis://localhost:6379/0'
+
+broker_transport_options = {'visibility_timeout': 3600}
+

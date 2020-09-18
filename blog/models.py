@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericRelation
 from ckeditor_uploader.fields import RichTextUploadingField
@@ -23,9 +24,11 @@ class Blog(models.Model, ReadNumExpandMethod):
     created_time = models.DateTimeField(auto_now_add=True)
     last_updated_time = models.DateTimeField(auto_now=True)
 
+    def get_url(self):
+        return reverse('blog_detail', kwargs={'blog_pk': self.pk})
+
     def __str__(self):
         return "<Blog: %s>" % self.title
 
     class Meta:
         ordering = ['-created_time']
-
